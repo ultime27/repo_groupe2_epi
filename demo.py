@@ -22,22 +22,28 @@ def kill_port_owner(port):
     else:
         subprocess.run(f'fuser -k {port}/tcp', shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-for port in [3000, 8000]:
-    if is_port_in_use(port):
-        kill_port_owner(port)
-        time.sleep(1)
-
 if os.name == 'nt': 
     python_venv = os.path.join("venv", "Scripts", "python.exe")
+    pip_venv = os.path.join("venv", "Scripts", "pip.exe")
     npm_cmd = "npm.cmd"
     use_shell = True
 else: 
     python_venv = os.path.join("venv", "bin", "python")
+    pip_venv = os.path.join("venv", "bin", "pip")
     npm_cmd = "npm"
     use_shell = False
 
-if not os.path.exists(python_venv):
-    sys.exit(1)
+if not os.path.exists("venv"):
+    subprocess.run([sys.executable, "-m", "venv", "venv"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run([pip_venv, "install", "fastapi", "uvicorn[standard]", "osmnx", "networkx", "pydantic"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+if not os.path.exists(os.path.join("web", "node_modules")):
+    subprocess.run([npm_cmd, "install"], cwd="web", shell=use_shell, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+for port in [3000, 8000]:
+    if is_port_in_use(port):
+        kill_port_owner(port)
+        time.sleep(1)
 
 backend_proc = subprocess.Popen(
     [python_venv, os.path.join("api", "server.py")],
