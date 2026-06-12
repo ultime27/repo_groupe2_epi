@@ -1,0 +1,50 @@
+COUT_FIXE_MACHINE = 500.0
+AMORTISSEMENT_MACHINE = 150.0
+COUT_KILOMETRIQUE = 1.1
+
+COUT_HORAIRE_MACHINE_REGULIER = 35.0
+COUT_HORAIRE_EMPLOYE_REGULIER = 25.0
+
+COUT_HORAIRE_MACHINE_SUPPLEMENTAIRE = 45.0
+COUT_HORAIRE_EMPLOYE_SUPPLEMENTAIRE = 37.5
+
+VITESSE_EXPLOITATION = 10.0
+SEUIL_HEURES_NORMALES = 8.0
+
+CONSO_ESSENCE = 30.0
+PRIX_ESSENCE = 1.85
+
+COUT_FIXE_TOTAL = COUT_FIXE_MACHINE + AMORTISSEMENT_MACHINE
+COUT_HORAIRE_REGULIER_TOTAL = COUT_HORAIRE_MACHINE_REGULIER + COUT_HORAIRE_EMPLOYE_REGULIER
+COUT_HORAIRE_SUPPLEMENTAIRE_TOTAL = COUT_HORAIRE_MACHINE_SUPPLEMENTAIRE + COUT_HORAIRE_EMPLOYE_SUPPLEMENTAIRE
+
+COUT_FIXE = COUT_FIXE_TOTAL
+COUT_KM = COUT_KILOMETRIQUE
+COUT_H_NORMAL = COUT_HORAIRE_REGULIER_TOTAL
+COUT_H_SUP = COUT_HORAIRE_SUPPLEMENTAIRE_TOTAL
+VITESSE = VITESSE_EXPLOITATION
+SEUIL_H = SEUIL_HEURES_NORMALES
+
+
+def cout_vehicule(
+    circuit_km,
+    cout_fixe=COUT_FIXE_TOTAL,
+    cout_km=COUT_KILOMETRIQUE,
+    cout_h_normal=COUT_HORAIRE_REGULIER_TOTAL,
+    cout_h_sup=COUT_HORAIRE_SUPPLEMENTAIRE_TOTAL,
+    vitesse=VITESSE_EXPLOITATION,
+    seuil_h=SEUIL_HEURES_NORMALES,
+    conso_l_h=CONSO_ESSENCE,
+    prix_essence=PRIX_ESSENCE,
+):
+    temps_total = circuit_km / vitesse if vitesse > 0 else 0.0
+    temps_normal = min(temps_total, seuil_h)
+    temps_sup = max(0.0, temps_total - seuil_h)
+
+    part_fixe = cout_fixe
+    part_dist = cout_km * circuit_km
+    part_h_normal = cout_h_normal * temps_normal
+    part_h_sup = cout_h_sup * temps_sup
+    part_essence = conso_l_h * prix_essence * temps_total
+
+    return part_fixe + part_dist + part_h_normal + part_h_sup + part_essence
