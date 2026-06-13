@@ -16,3 +16,18 @@ Le projet dispose d'un lanceur unifié `demo.py` qui nettoie les ports réseau, 
 ## Prérequis
 * **Python 3.10+**
 * **Node.js** (incluant `npm`)
+
+## Structure du Rendu
+
+Voici le descriptif détaillé de l'arborescence du projet et le rôle de chaque composant :
+
+```text
+.
+├── AUTHORS              # Liste des contributeurs du projet
+├── README.md            # Instructions et descriptif de la structure du rendu
+├── demo.py              # Script de lancement
+├── Rapport_ERO1_grp2.pdf# Rapport
+├── api/                 # BACKEND
+├── src/                 # ALGORITHMES
+├── data/                # DONNÉES des 4 secteurs (Outremont, Verdun, Anjou, Riviere)
+└── web/                 # FRONTEND 
