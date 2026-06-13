@@ -12,7 +12,7 @@ Ce projet implémente une plateforme web d'aide à la décision et un moteur alg
 ## Instructions d'installation et d'exécution
 
 Le projet dispose d'un lanceur unifié `demo.py` qui nettoie les ports réseau, initialise les services en arrière-plan et ouvre automatiquement l'application dans votre navigateur.
-
+Pour le lancer il suffit de faire python .\demo.py sur WINDOWS ou python3 demo.py sur Linux ou MacOS
 ## Prérequis
 * **Python 3.10+**
 * **Node.js** (incluant `npm`)
