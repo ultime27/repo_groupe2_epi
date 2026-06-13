@@ -39,12 +39,18 @@ else:
     use_shell = False
 
 if not os.path.exists("venv"):
-    log("Environnement virtuel 'venv' introuvable. Création en cours...")
+    log("Création de l'environnement virtuel...")
     subprocess.run([sys.executable, "-m", "venv", "venv"])
-    
-    log("Installation des dépendances Python (FastAPI, OSMnx, NetworkX...) dans le venv...")
-    subprocess.run([pip_venv, "install", "fastapi", "uvicorn[standard]", "osmnx", "networkx", "pydantic"])
-    log("Environnement Python opérationnel.")
+
+if not os.path.exists(pip_venv):
+    log("Réparation de l'environnement : installation de pip...")
+    subprocess.run([python_venv, "-m", "ensurepip", "--upgrade"])
+    subprocess.run([python_venv, "-m", "pip", "install", "--upgrade", "pip"])
+
+log("Installation des dépendances Python (FastAPI, OSMnx, NetworkX...) dans le venv...")
+subprocess.run([pip_venv, "install", "fastapi", "uvicorn[standard]", "osmnx", "networkx", "pydantic"])
+log("Environnement Python opérationnel.")
+
 
 log("Vérification de la présence locale de Node.js / NPM...")
 has_npm = True
